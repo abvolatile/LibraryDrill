@@ -1,5 +1,5 @@
 --Get book title, borrower's name and address for books due today at particular branch
-CREATE PROC spGetBooksDueToday @BranchName nvarchar(75) = NULL, @Today date
+CREATE PROC spGetBooksDueToday @BranchName nvarchar(75) = NULL
 AS
 	SELECT BOOK.Title, B.Name, B.[Address], BL.DueDate
 	FROM BORROWER B
@@ -7,6 +7,6 @@ AS
 	JOIN BOOK ON BL.BookID=BOOK.BookID
 	JOIN LIBRARY_BRANCH LB ON BL.BranchID=LB.BranchID
 	WHERE LB.BranchName = ISNULL(@BranchName, LB.BranchName)
-	AND BL.DueDate = @Today;
+	AND BL.DueDate = GETDATE();
 GO
 
